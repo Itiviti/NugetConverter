@@ -1,0 +1,10 @@
+packages/*
+*.suo
+.vs/**
+*.user
+NugetConverter/bin/Debug*
+NugetConverter/obj/*
+NugetConverterTest/bin/Debug*
+NugetConverterTest/obj/*
+
+NugetConverter/bin
