@@ -248,7 +248,7 @@ namespace Ullink.NugetConverter.services
                 var ps = new PackageServer(_repository, "None");
                 ps.PushPackage(_credential, nuGetPackage, size, 50000, false);
                
-                Trace.TraceInformation("Package {0} uploaded to ulcentral", package);
+                Trace.TraceInformation("Package {0} uploaded to {1}", package, _repository);
         }
 
         public void RemovePackage(Tuple<SemanticVersion, string> groupId)

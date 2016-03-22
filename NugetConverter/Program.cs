@@ -64,6 +64,8 @@ namespace Ullink.NugetConverter
             dlls = Directory.GetFiles(options.Source, "*.dll", SearchOption.AllDirectories);
             Trace.TraceInformation("{0} dlls found in {1}", dlls.Length, options.Source);
 
+            if (!Directory.Exists(@"cache"))
+                Directory.CreateDirectory(@"cache");
 
             Builder.RegisterType<ConfigurationService>()
                    .WithParameter("path", options.Source)
@@ -108,11 +110,11 @@ namespace Ullink.NugetConverter
                                         (pi, c) => pi.ParameterType == (typeof(MappingService)),
                                         (pi, c) => c.Resolve(typeof(MappingService))))
                     .WithParameter(new ResolvedParameter(
-                                        (pi, c) => pi.ParameterType == (typeof(DependenciesResolverService)),
-                                        (pi, c) => c.Resolve(typeof(DependenciesResolverService))))
-                    .WithParameter(new ResolvedParameter(
                                         (pi, c) => pi.ParameterType == (typeof(ConfigurationService)),
                                         (pi, c) => c.Resolve(typeof(ConfigurationService))))
+                    .WithParameter(new ResolvedParameter(
+                                        (pi, c) => pi.ParameterType == (typeof(DependenciesResolverService)),
+                                        (pi, c) => c.Resolve(typeof(DependenciesResolverService))))
                                         .WithParameter("useCache", !options.NoCache)
                                         .WithParameter("repository", options.Repository)
                                         .WithParameter("credential", options.RepositoryCredential)
