@@ -53,7 +53,7 @@ namespace Ullink.NugetConverter.services
         public void SyncAssembliesPackages()
         {
             //From Assembly Group we need to create special nuget Package ( due to API LEVEL ) :
-            Parallel.ForEach(_assemblyCacheService.Assemblies, new ParallelOptions() { MaxDegreeOfParallelism = 1 }, (_) => CreatePackageIfNeeded(_, false));
+            Parallel.ForEach(_assemblyCacheService.Assemblies, new ParallelOptions() { MaxDegreeOfParallelism = 50 }, (_) => CreatePackageIfNeeded(_, false));
         }
 
         public void CreatePackage(Tuple<SemanticVersion, string> assemblyId, bool logToSlack)

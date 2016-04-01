@@ -68,7 +68,7 @@ namespace Ullink.NugetConverter.services.dependenciesService
                 var nugetPackage = _mappingService.GetNuGetPackage(_assemblyCacheService, assemblyDependency);
                 if (nugetPackage != null)
                 {
-                    Trace.TraceInformation($"{assemblyDependency.Item2}-{assemblyDependency.Item1} found in official repository");
+                    Trace.TraceInformation($"{assemblyDependency.Item2}-{assemblyDependency.Item1} found in official repository as {nugetPackage.Item2}-{nugetPackage.Item1}");
                     return nugetPackage;
                 }
             }
@@ -78,7 +78,7 @@ namespace Ullink.NugetConverter.services.dependenciesService
             if (_assemblyCacheService.Assemblies.ContainsKey(resolvedAssembly) 
                                     && conflictingAssemblies[assemblyDependency].Count(_ => string.IsNullOrEmpty(_.SpecialVersion)) == 1)
             {
-                Trace.TraceInformation($"{assemblies[resolvedAssembly].Path} found on local directory");
+                Trace.TraceInformation($"{assemblyDependency.Item2}-{assemblyDependency.Item1} found at {assemblies[resolvedAssembly].Path}");
                 return assemblies[resolvedAssembly].Id;
             }
 

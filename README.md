@@ -18,6 +18,27 @@ Will run as a deamon and watch all dll changes in `C:\MyAssembliesFolder`. First
 * How many dll you have
 * How slow is you connection to nuget.org (or other if specified)
 
+# Run as a windows service
+
+Using a administrator command prompt :
+
+```
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe <Path\To\NugetConverterService.exe>
+```
+
+To specify arguments put in the same folder than NugetConverterService.exe a `CommandLine.config` file containing arguments like this :
+```
+--source
+C:\Path\To\Source
+--author
+me
+--owner
+me
+--repository
+http://remoteserver
+```
+*Each time arguments are changed you need to reinstal the service. use `InstallUtil.exe /u`*
+
 ## Sample
 
 

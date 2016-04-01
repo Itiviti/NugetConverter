@@ -21,7 +21,7 @@ namespace Ullink.NugetConverter.services.configuration
 
         public bool Ignore { get; set; }
 
-        public IEnumerable<Tuple<string,Regex>> SnapshotMapping { get; set; }
+        public IEnumerable<Tuple<string, Regex>> SnapshotMapping { get; set; }
         
         public IEnumerable<Tuple<string, ConfigurationFileReader.MappingInfo>> NugetPackagesMapping { get; set; }
 

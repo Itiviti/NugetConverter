@@ -8,3 +8,5 @@ NugetConverterTest/bin/Debug*
 NugetConverterTest/obj/*
 
 NugetConverter/bin
+NugetConverterService/bin/Debug/
+NugetConverterService/obj/

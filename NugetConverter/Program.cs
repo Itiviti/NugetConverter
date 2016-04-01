@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using Autofac;
@@ -14,18 +15,35 @@ using Ullink.NugetConverter.utils;
 
 namespace Ullink.NugetConverter
 {    
-    class Program
+    public class Program
     {
         public static ContainerBuilder Builder;
         public static IContainer Container;
 
-        static int Main(string[] args)
+
+        public static int Main(string[] args)
         {
+            try
+            {
+                var result = Run(args);
+                if (result != null)
+                    return 1;
+            }
+            catch (Exception)
+            {
+                return 2;
+            }
+            return 0;
+        }
+
+        public static string Run(string[] args)
+        {
+            string error = null;
             var process = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location));
             if (process.Length > 1)
             {
-                Trace.TraceError("An instance of ul-nuget-converter is already running...");
-                return -2;
+                error = "An instance of ul-nuget-converter is already running...";
+                return error;
             }
 
             //Un comment this line if you want to force logging of Api change analyze
@@ -34,7 +52,8 @@ namespace Ullink.NugetConverter
             var options = new CommandLineOptions();
             if (!CommandLine.Parser.Default.ParseArguments(args, options))
             {
-                return -1;
+                error = $"Error while parsing options: {args.Aggregate("",(current, next) => current + "|" + next)}";
+                return error;
             }
 
             //When filename is set let's recompute everything
@@ -56,8 +75,7 @@ namespace Ullink.NugetConverter
             string[] dlls = null;
             if (string.IsNullOrEmpty(options.Source))
             {
-                Console.Write(options.GetUsage());
-                return -2;
+                return options.GetUsage();
             }
 
             Trace.TraceInformation("searching for dlls in {0}", options.Source);
@@ -140,7 +158,7 @@ namespace Ullink.NugetConverter
                     packageCreationService.SyncAssembliesPackages();
             }
 
-            return 0;
+            return null;
         }
 
         public static void CreatePackage(ILifetimeScope scope, CommandLineOptions options)
@@ -173,5 +191,6 @@ namespace Ullink.NugetConverter
                     exit = true;
             }
         }
+
     }
 }

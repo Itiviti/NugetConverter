@@ -31,7 +31,6 @@ namespace Ullink.NugetConverter.services.assemblyCacheService
         /// Value: SortedSet<SemanticVersion> contains list of assemblies with same assembly version
         /// </summary>
         private IDictionary<Tuple<Version, string>, SortedSet<SemanticVersion>> _conflictingAssemblies;
-        private readonly AssemblyCacheServiceSerializer _serializer = new/**/ AssemblyCacheServiceSerializer();
         
         /// <summary>
         /// The only purpose of this is to use Cecil to read References
@@ -68,17 +67,12 @@ namespace Ullink.NugetConverter.services.assemblyCacheService
         public Tuple<SemanticVersion, string> AddOrUpdateAssembly(string fullPath)
         {
             var result = CreateOrUpdateAssembly(fullPath);
-            if(_useCache)
-                _serializer.Save(_conflictingAssemblies, _assemblies);
             return result;
-
         }
 
         private SortedDictionary<Tuple<SemanticVersion, string>, DllReference> CreateOrUpdateAssemblies(IEnumerable<string> dlls)
         {
             _assemblies = new SortedDictionary<Tuple<SemanticVersion, string>, DllReference>();
-            if (_useCache)
-                _serializer.Load(ref _conflictingAssemblies, ref  _assemblies);
 
             //Ugly Performance...
             var notAlreadyCompute = dlls
@@ -89,9 +83,6 @@ namespace Ullink.NugetConverter.services.assemblyCacheService
             {
                 CreateOrUpdateAssembly(dll);
             }
-
-            if (_useCache)
-                _serializer.Save(_conflictingAssemblies, _assemblies);
 
             return Assemblies;
         }
