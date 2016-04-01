@@ -24,7 +24,7 @@ namespace Ullink.NugetConverter
           HelpText = "User and password for repository in form of user:password")]
         public string RepositoryCredential { get; set; }
 
-        [Option('p', "official-repository", Required = false,
+        [Option('i', "official-repository", Required = false,
           HelpText = "repository to retrieve package from. can be remote or local repository")]
         public string OfficialRepository { get; set; }
 
